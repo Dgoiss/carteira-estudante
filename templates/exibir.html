@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Carteira - {{ carteira.nome_completo }}</title>
+    <style>
+        body { background-color: #121212; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; }
+        
+        .nav-buttons { position: fixed; top: 20px; left: 20px; display: flex; gap: 10px; }
+        .nav-btn { padding: 10px 15px; background: #374151; color: white; text-decoration: none; border-radius: 5px; font-size: 13px; border: 1px solid #4b5563; }
+        .nav-btn:hover { background: #4b5563; }
+
+        .print-btn { position: fixed; top: 20px; right: 20px; padding: 10px 15px; background: #059669; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        .card {
+            width: 420px; height: 250px;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-radius: 12px; padding: 20px; color: #f3f4f6;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 1px solid #374151;
+            display: flex; flex-direction: column; position: relative;
+        }
+        .header h2 { margin: 0; font-size: 16px; text-transform: uppercase; color: #60a5fa; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px; }
+        .content { display: flex; gap: 15px; flex: 1; }
+        .photo-area img { width: 95px; height: 120px; border-radius: 6px; object-fit: cover; border: 2px solid #374151; }
+        .info-area { flex: 1; min-width: 0; }
+        .label { font-weight: bold; color: #9ca3af; font-size: 9px; text-transform: uppercase; }
+        .value { font-size: 14px; color: #fff; margin-bottom: 8px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .footer { margin-top: auto; display: flex; justify-content: space-between; font-size: 11px; color: #60a5fa; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media print { .nav-buttons, .print-btn { display: none; } body { background: white; } .card { box-shadow: none; border: 1px solid #000; } }
+    </style>
+</head>
+<body>
+
+    <div class="nav-buttons">
+        <a href="{% url 'lista_carteiras' %}" class="nav-btn">⬅ Voltar para Lista</a>
+        <a href="{% url 'criar_carteira' %}" class="nav-btn">➕ Novo Cadastro</a>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Imprimir PDF</button>
+
+    <div class="card">
+        <div class="header"><h2>Identificação Estudantil</h2></div>
+        <div class="content">
+            <div class="photo-area">
+                <img src="{{ carteira.foto.url }}" alt="Foto">
+            </div>
+            <div class="info-area">
+                <span class="label">Nome</span><span class="value">{{ carteira.nome_completo }}</span>
+                <span class="label">Curso</span><span class="value">{{ carteira.curso }}</span>
+                <span class="label">Matrícula</span><span class="value">{{ carteira.matricula }}</span>
+            </div>
+        </div>
+        <div class="footer">
+            <span>Nascimento: <b>{{ carteira.data_nascimento|date:"d/m/Y" }}</b></span>
+            <span>Validade: <b>{{ carteira.validade|date:"d/m/Y" }}</b></span>
+        </div>
+    </div>
+
+</body>
+</html>
